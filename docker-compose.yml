@@ -20,6 +20,7 @@ services:
       context: logstash/
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/config/logstash.conf:/usr/share/logstash/config/logstash.conf:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
       - "5000:5000"
@@ -45,7 +46,11 @@ services:
     build:
       context: apm-server/
     volumes:
-      - ./apm-server/config/:/usr/share/apm-server/config:ro
+      - ./apm-server/config/apm-server.yml:/usr/share/apm-server/config/apm-server.yml:ro
+    ports:
+      - "8200:8200"
+    depends_on:
+      - elasticsearch
 
 networks:
 
